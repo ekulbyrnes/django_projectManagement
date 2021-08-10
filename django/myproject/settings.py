@@ -55,6 +55,8 @@ INSTALLED_APPS = [
     'rest_framework',
     # Include this to build on top of Boostrap 4
     'bootstrap4',
+    # Include this to activate the NearBeach project management utility
+    'NearBeach.apps.NearBeachConfig',
 ]
 
 MIDDLEWARE = [
@@ -154,3 +156,29 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 BOOTSTRAP4 = {
     'include_jquery': True
 }
+
+# NearBeach Email settings:
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_USE_TLS = True
+EMAIL_HOST = 'localhost'
+EMAIL_PORT = 25
+EMAIL_HOST_USER = 'root'
+EMAIL_HOST_PASSWORD = 'root'
+DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
+
+# NearBeach Private Documents settings:
+PRIVATE_MEDIA_URL = '/private/' # Can be changed
+if DEBUG:
+    # dev
+    import os
+
+    PRIVATE_MEDIA_ROOT = os.path.abspath(os.path.dirname(__file__))
+    PRIVATE_MEDIA_SERVER = 'DefaultServer'
+else:
+    # prod
+    PRIVATE_MEDIA_ROOT = '/private/' # '<< folder containing private folder >>'
+    PRIVATE_MEDIA_SERVER = 'ApacheXSendfileServer' 
+
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
+
